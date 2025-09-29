@@ -209,4 +209,4 @@ This project is licensed under the [MIT License](./LICENSE).
 
 ---
 
-AGILira Workflow • Standardized DevOps Excellence
+workflow • an AGILira tool
