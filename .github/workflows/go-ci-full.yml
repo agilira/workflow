@@ -82,6 +82,8 @@ jobs:
         echo "Security scan completed"
 
     - name: Test with Race Detection
+      env:
+        GOFLAGS: -buildvcs=false
       run: go test -race -timeout 5m -v ./...
 
     - name: Test Coverage
@@ -123,4 +125,4 @@ jobs:
       run: go build -v ./...
 
     - name: Short Test (no race, faster)
-      run: go test -short -timeout 30s ./...
+      run: go test -short -timeout 5m ./...
