@@ -1,0 +1,58 @@
+name: Go PR Quick Check
+
+on:
+  workflow_call:
+    inputs:
+      go-version:
+        description: 'Go version to use'
+        required: false
+        default: 'stable'
+        type: string
+      gosec-excludes:
+        description: 'Gosec rules to exclude (comma-separated)'
+        required: false
+        default: 'G104,G306,G301'
+        type: string
+      working-directory:
+        description: 'Working directory for the project'
+        required: false
+        default: '.'
+        type: string
+
+env:
+  CGO_ENABLED: 1
+
+jobs:
+  quick-test:
+    name: Quick Validation
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: ${{ inputs.go-version }}
+        cache: true
+        cache-dependency-path: ${{ inputs.working-directory }}/go.sum
+
+    - name: Quick Quality Check
+      run: |
+        # Format check
+        test -z "$(gofmt -l .)"
+        
+        # Vet
+        go vet ./...
+        
+        # Basic test
+        go test -short ./...
+
+    - name: Install Security Tools
+      run: go install github.com/securego/gosec/v2/cmd/gosec@latest
+
+    - name: Security Scan
+      run: gosec --exclude=${{ inputs.gosec-excludes }} ./...
