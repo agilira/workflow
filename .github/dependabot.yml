@@ -1,0 +1,39 @@
+version: 2
+updates:
+  # Enable version updates for GitHub Actions in workflow repository
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    commit-message:
+      prefix: "chore(deps): "
+      include: "scope"
+    reviewers:
+      - "agilira"
+    assignees:
+      - "agilira"
+    open-pull-requests-limit: 5
+    
+  # Enable version updates for npm if we have package.json
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(deps): "
+    reviewers:
+      - "agilira"
+    open-pull-requests-limit: 3
+
+  # Enable version updates for Go modules if we have go.mod
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(deps): "
+    reviewers:
+      - "agilira"
+    open-pull-requests-limit: 3
