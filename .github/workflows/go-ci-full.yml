@@ -13,16 +13,15 @@ on:
         required: false
         default: '.'
         type: string
-      codecov-token:
-        description: 'Codecov token for coverage upload'
-        required: false
-        default: ''
-        type: string
       gosec-config:
         description: 'Path to gosec configuration file'
         required: false
         default: '.gosec.json'
         type: string
+    secrets:
+      CODECOV_TOKEN:
+        description: 'Codecov token for coverage upload'
+        required: false
 
 env:
   CGO_ENABLED: 1
@@ -91,14 +90,13 @@ jobs:
         go tool cover -func=coverage.out
 
     - name: Upload coverage to Codecov
-      if: ${{ inputs.codecov-token != '' }}
       uses: codecov/codecov-action@v4
       with:
         file: ${{ inputs.working-directory }}/coverage.out
         flags: unittests
         name: codecov-umbrella
         fail_ci_if_error: false
-        token: ${{ inputs.codecov-token }}
+        token: ${{ secrets.CODECOV_TOKEN || '' }}
 
   build:
     name: Build Matrix
