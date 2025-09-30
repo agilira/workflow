@@ -92,7 +92,7 @@ jobs:
         go tool cover -func=coverage.out
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
+      uses: codecov/codecov-action@v5
       with:
         file: ${{ inputs.working-directory }}/coverage.out
         flags: unittests
