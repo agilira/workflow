@@ -1,207 +1,206 @@
 # AGILira Workflow Templates
-### Standardized GitHub Actions workflows and CI/CD templates
 
-Reusable GitHub Actions workflows and configuration templates for AGILira projects. Designed for Go projects with professiona-grade quality gates, security scanning, and automated dependency management.
+Standardized GitHub Actions workflows and configuration templates for AGILira projects. Designed for Go projects with professional-grade quality gates, security scanning, and automated dependency management.
 
-## Quick Start
+## Overview
 
-### 1. Use Reusable Workflows
+This repository provides:
 
-Add to your project's `.github/workflows/ci.yml`:
+- **GitHub Actions Workflows** - Complete CI/CD pipelines
+- **Configuration Templates** - Standardized configuration files
+- **Documentation** - Usage guides and examples
 
-```yaml
-name: CI/CD
-on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main ]
+## Available Workflows
 
-jobs:
-  ci:
-    uses: agilira/workflow/.github/workflows/go-ci-full.yml@v1
-    with:
-      go-version: 'stable'
-      codecov-token: ${{ secrets.CODECOV_TOKEN }}
-```
+### Complete CI/CD Pipeline (`ci.yml`)
 
-Add to your project's `.github/workflows/pr.yml`:
+Comprehensive continuous integration and deployment workflow:
 
 ```yaml
-name: PR Check
-on:
-  pull_request:
-    branches: [ main ]
-
-jobs:
-  pr-check:
-    uses: agilira/workflow/.github/workflows/go-pr-quick.yml@v1
-    with:
-      go-version: 'stable'
-      gosec-excludes: 'G104,G306,G301'
+# Copy .github/ci.yml to your project
+# Provides full test suite with quality gates
 ```
 
-### 2. Copy Configuration Templates
+Features:
+- Test execution with race condition detection
+- Security scanning using gosec
+- Code coverage reporting with Codecov integration
+- Static analysis with staticcheck
+- Cross-platform build matrix (Linux, Windows, macOS)
+- Latest stable Go version support
 
-```bash
-# Copy dependabot configuration
-curl -o .github/dependabot.yml https://raw.githubusercontent.com/agilira/workflow/main/templates/dependabot.yml
+### Pull Request Validation (`pr.yml`)
 
-# Copy gosec security configuration
-curl -o .gosec.json https://raw.githubusercontent.com/agilira/workflow/main/templates/.gosec.json
-
-# Copy Go gitignore
-curl -o .gitignore https://raw.githubusercontent.com/agilira/workflow/main/templates/.gitignore
-```
-
-### 3. Enable Auto-merge (Optional)
-
-Add to `.github/workflows/dependabot-auto-merge.yml`:
+Fast validation workflow for pull requests:
 
 ```yaml
-name: Dependabot auto-merge
-on: pull_request_target
-
-jobs:
-  dependabot:
-    uses: agilira/workflow/.github/workflows/dependabot-auto-merge.yml@v1
-    with:
-      ci-check-name: "ci"
+# Quick validation including:
+# - Code formatting verification
+# - Go vet analysis
+# - Basic test execution
+# - Security scanning
 ```
 
-## Workflows
-
-### Go CI/CD Full (`go-ci-full.yml`)
-
-Comprehensive CI/CD pipeline for Go projects with:
-
-- **Quality Gates**: Format check, vet, staticcheck
-- **Security**: Vulnerability scan, gosec security analysis
-- **Testing**: Race detection, coverage reporting
-- **Cross-platform**: Linux, Windows, macOS builds
-- **Dependencies**: Module verification
-
-**Inputs:**
-- `go-version` (default: `'stable'`)
-- `working-directory` (default: `'.'`)
-- `codecov-token` (optional)
-- `gosec-config` (default: `'.gosec.json'`)
-
-### Go PR Quick Check (`go-pr-quick.yml`)
-
-Fast validation for pull requests:
-
-- **Quick Quality**: Format, vet, short tests
-- **Security Scan**: Basic gosec analysis
-- **Fast Feedback**: Optimized for speed
-
-**Inputs:**
-- `go-version` (default: `'stable'`)
-- `gosec-excludes` (default: `'G104,G306,G301'`)
-- `working-directory` (default: `'.'`)
+Optimized for:
+- Rapid developer feedback
+- Essential quality checks
+- Basic security validation
 
 ### Dependabot Auto-merge (`dependabot-auto-merge.yml`)
 
-Intelligent auto-merging for dependency updates:
+Intelligent automated dependency management:
 
-- **Safe Updates**: Auto-merge patch/minor versions
-- **CI Integration**: Waits for CI to pass
-- **Manual Review**: Major versions require approval
+```yaml
+# Automated merging for:
+# - Patch and minor updates after CI validation
+# - Manual review requirement for major updates
+```
 
-**Inputs:**
-- `ci-check-name` (default: `'ci'`)
-- `timeout-seconds` (default: `600`)
+Capabilities:
+- Automated merge for safe dependency updates
+- Manual review required for major version changes
+- Mandatory CI validation before merge
+- Automated informational comments
 
-## Templates
+## Configuration Templates
 
 ### Dependabot Configuration (`templates/dependabot.yml`)
 
-Standard dependency management:
-- Daily Go module updates
-- GitHub Actions updates
-- AGILira package grouping
-- Italian timezone scheduling
-
-### Security Configuration (`templates/.gosec.json`)
-
-Gosec security scanner settings:
-- Medium severity/confidence baseline
-- Common false positive exclusions
-- Generated code filtering
-
-### Go Gitignore (`templates/.gitignore`)
-
-Comprehensive Go project exclusions:
-- Build artifacts and binaries
-- IDE and OS files
-- Test coverage and security reports
-- AGILira-specific patterns
-
-## Examples
-
-### Standard Go Library Project
+Standardized dependency management configuration:
 
 ```yaml
-# .github/workflows/ci.yml
-name: CI/CD
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-jobs:
-  ci:
-    uses: agilira/workflow/.github/workflows/go-ci-full.yml@v1
-
-  pr-check:
-    if: github.event_name == 'pull_request'
-    uses: agilira/workflow/.github/workflows/go-pr-quick.yml@v1
+# Copy to .github/dependabot.yml
+# Optimized for Go projects with AGILira standards
 ```
 
-### Multi-module Project
+Configuration includes:
+- Daily updates scheduled at 09:00 Europe/Rome timezone
+- Intelligent dependency grouping
+- Automatic assignment to AGILira team
+- Pull request limits to prevent noise
+
+### Gosec Security Configuration (`templates/.gosec.json`)
+
+Custom security scanning template:
+
+```json
+// Optimized configuration for AGILira projects
+// Excludes common false positives
+// Includes custom security pattern rules
+```
+
+### Go Gitignore Template (`templates/.gitignore`)
+
+Comprehensive gitignore for Go projects:
+
+```gitignore
+# Complete template for AGILira Go projects
+# Includes IDE, OS, and development tool exclusions
+```
+
+## Usage
+
+### Quick Setup
+
+Copy workflows to your project:
+
+```bash
+# Create required directory structure
+mkdir -p .github/workflows
+
+# Copy primary workflows
+cp workflow/.github/ci.yml .github/workflows/
+cp workflow/.github/pr.yml .github/workflows/
+cp workflow/.github/dependabot-auto-merge.yml .github/workflows/
+
+# Copy configuration templates
+cp workflow/templates/dependabot.yml .github/
+cp workflow/templates/.gosec.json .
+cp workflow/templates/.gitignore .
+```
+
+### Customization
+
+Adapt templates to your requirements:
 
 ```yaml
-# .github/workflows/ci.yml
-name: CI/CD
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-jobs:
-  core:
-    uses: agilira/workflow/.github/workflows/go-ci-full.yml@v1
-    with:
-      working-directory: './core'
+# In ci.yml, customize if needed:
+env:
+  CGO_ENABLED: 1  # Modify if your project doesn't use CGO
   
-  provider:
-    uses: agilira/workflow/.github/workflows/go-ci-full.yml@v1
-    with:
-      working-directory: './provider'
+# In dependabot.yml:
+schedule:
+  time: "09:00"  # Adjust for your timezone if necessary
 ```
 
-## Best Practices
+### Codecov Configuration (Optional)
 
-- **Pin versions** in production: `@v1.2.0` instead of `@v1`
-- **Use appropriate workflow** per project type (quick for PRs, full for CI)
-- **Configure gosec excludes** based on your project's security requirements
-- **Enable codecov integration** for coverage tracking
-- **Review major dependency updates** manually before merging
+For enhanced coverage reporting, add to your repository:
 
-## Versioning
-
-We use semantic versioning for releases:
-
-- **v1.x.x**: Stable API, backward compatible
-- **v1.x.0**: New features, minor breaking changes possible
-- **v1.0.x**: Bug fixes, fully backward compatible
-
-Pin to specific versions for production:
 ```yaml
-uses: agilira/workflow/.github/workflows/go-ci-full.yml@v1.2.0
+# .codecov.yml
+coverage:
+  range: "50...80"
+  status:
+    project:
+      default:
+        target: 70%
 ```
+
+## Requirements
+
+- **Go**: Stable version (managed automatically by workflows)
+- **Repository**: Standard Go project structure
+- **Secrets**: `GITHUB_TOKEN` (provided automatically by GitHub)
+- **Codecov**: Optional token for advanced coverage reporting
+
+## Implementation Examples
+
+### Standard Go Project
+
+For a typical Go project setup:
+
+```bash
+# 1. Apply base templates
+cp workflow/templates/.gitignore .
+cp workflow/templates/.gosec.json .
+
+# 2. Setup essential workflows
+cp workflow/.github/ci.yml .github/workflows/
+cp workflow/.github/pr.yml .github/workflows/
+
+# 3. Enable dependabot
+cp workflow/templates/dependabot.yml .github/
+```
+
+### Go Project with Automated Dependency Management
+
+For projects requiring full automation:
+
+```bash
+# Complete setup with auto-merge capabilities
+cp workflow/.github/*.yml .github/workflows/
+cp workflow/templates/* .github/
+```
+
+## Security Features
+
+The workflows implement multiple security layers:
+
+- **Gosec**: Code vulnerability scanning
+- **Dependabot**: Secure automated dependency updates
+- **Go vet**: Built-in static analysis
+- **Staticcheck**: Advanced code analysis
+- **Race detection**: Concurrent execution validation
+
+## Contributing
+
+To improve the templates:
+
+1. Fork the repository
+2. Create a feature branch
+3. Test with real projects
+4. Submit pull request with detailed description
 
 ## License
 
@@ -209,4 +208,4 @@ This project is licensed under the [MIT License](./LICENSE).
 
 ---
 
-workflow • an AGILira tool
+workflow • An AGILira tool
