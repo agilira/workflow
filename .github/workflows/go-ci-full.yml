@@ -18,6 +18,11 @@ on:
         required: false
         default: '.gosec.json'
         type: string
+      skip-macos:
+        description: 'Skip macOS testing for faster CI'
+        required: false
+        default: false
+        type: boolean
     secrets:
       CODECOV_TOKEN:
         description: 'Codecov token for coverage upload'
@@ -109,7 +114,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        # Skip macOS for Dependabot PRs (faster CI) or when explicitly requested
+        os: ${{ (github.actor == 'dependabot[bot]' || inputs.skip-macos == true) && fromJSON('["ubuntu-latest", "windows-latest"]') || fromJSON('["ubuntu-latest", "windows-latest", "macos-latest"]') }}
     steps:
     - name: Checkout
       uses: actions/checkout@v5
