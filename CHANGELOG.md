@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Enhanced Security Tools:**
+  - `govulncheck` integration for known vulnerability database scanning
+  - `go mod verify` for dependency integrity verification
+  - Enhanced security pipeline with comprehensive vulnerability detection
+
+- **Development Tools Enhancement:**
+  - Updated Makefile with govulncheck target and enhanced security checks
+  - Updated PowerShell build script (Makefile.ps1) with govulncheck support
+  - Cross-platform development tool consistency between Unix and Windows environments
+
+- **CI/CD Pipeline Improvements:**
+  - Added govulncheck step to GitHub Actions workflow
+  - Added dependency verification step with go mod verify
+  - Enhanced security scanning with dual vulnerability detection (gosec + govulncheck)
+
+### Changed
+- **Security Pipeline:** Extended security checks to include both code pattern analysis (gosec) and known vulnerability scanning (govulncheck)
+- **Build Tools:** Updated tools installation to include golang.org/x/vuln/cmd/govulncheck@latest
+- **Documentation:** Enhanced README with development tools section and security command examples
+
 ## [0.1.0] - 2025-10-01
 
 ### Added

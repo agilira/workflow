@@ -6,7 +6,8 @@
 //   - Comprehensive testing with race detection
 //   - Multi-platform builds (Linux, Windows, macOS)
 //   - Static analysis (go vet, staticcheck)
-//   - Security scanning (gosec)
+//   - Enhanced security scanning (gosec + govulncheck)
+//   - Dependency integrity verification (go mod verify)
 //   - Code coverage reporting
 //   - Dependabot integration with auto-merge
 //

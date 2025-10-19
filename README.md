@@ -23,7 +23,8 @@ Comprehensive continuous integration and deployment workflow:
 
 Features:
 - Test execution with race condition detection
-- Security scanning using gosec
+- Comprehensive security scanning (gosec + govulncheck)
+- Dependency verification with go mod verify
 - Code coverage reporting with Codecov integration
 - Static analysis with staticcheck
 - Cross-platform build matrix (Linux, Windows, macOS)
@@ -147,6 +148,46 @@ coverage:
         target: 70%
 ```
 
+## Development Tools
+
+This repository includes comprehensive build and test automation:
+
+### Make/PowerShell Commands
+
+Available development commands:
+
+```bash
+# Unix/Linux/macOS (Makefile)
+make help          # Show all available commands
+make check         # Run complete validation suite
+make security      # Run security checks (gosec + govulncheck)
+make tools         # Install all development tools
+make deps          # Download and verify dependencies
+
+# Windows (PowerShell)
+.\Makefile.ps1 help          # Show all available commands
+.\Makefile.ps1 check         # Run complete validation suite
+.\Makefile.ps1 security      # Run security checks (gosec + govulncheck)
+.\Makefile.ps1 tools         # Install all development tools
+.\Makefile.ps1 deps          # Download and verify dependencies
+```
+
+### Security Commands
+
+Enhanced security validation:
+
+```bash
+# Individual security tools
+make gosec         # Code vulnerability scanning
+make govulncheck   # Known vulnerability database check
+make security      # Complete security suite
+
+# PowerShell equivalent
+.\Makefile.ps1 gosec         # Code vulnerability scanning
+.\Makefile.ps1 govulncheck   # Known vulnerability database check
+.\Makefile.ps1 security      # Complete security suite
+```
+
 ## Requirements
 
 - **Go**: Stable version (managed automatically by workflows)
@@ -187,7 +228,9 @@ cp workflow/templates/* .github/
 
 The workflows implement multiple security layers:
 
-- **Gosec**: Code vulnerability scanning
+- **Gosec**: Code vulnerability scanning for security anti-patterns
+- **Govulncheck**: Known vulnerability database scanning
+- **Go mod verify**: Dependency integrity verification
 - **Dependabot**: Secure automated dependency updates
 - **Go vet**: Built-in static analysis
 - **Staticcheck**: Advanced code analysis
